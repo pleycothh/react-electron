@@ -7,11 +7,12 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
+      nodeIntegration: true, // <- enable node module to get access to file system
       enableRemoteModel: true,
     },
   })
 
-  win.loadURL('http://localhost:300')
+  win.loadURL('http://localhost:3000')
 }
 
 app.on('ready', createWindow)
