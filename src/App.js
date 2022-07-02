@@ -25,7 +25,7 @@ function App() {
       fs
         .readdirSync(path)
         .map((file) => {
-          const state = fs.statSync(pathModel.join(path, file))
+          const stats = fs.statSync(pathModel.join(path, file))
           return {
             name: file,
             size: stats.isFile() ? formateSize(stats.size ?? 0) : null,
@@ -44,9 +44,25 @@ function App() {
   const onBack = () => setPath(pathModel.dirname(path))
   const onOpen = (folder) => setPath(pathModel.join(path, folder))
 
+  const [searchString, setSearchString] = useState('')
+  const filteredFiles = files.filter(s => s.name.startWith(searchString))
+
+
+
+
   return (
     <div className="container mt-2">
-      <div className="form-group mt-4 mb-2"></div>
+      <h4>{path}</h4>
+      <div className="form-group mt-4 mb-2">
+        <input
+        value = {searchString}
+        onChange={event => setSearchString(event.target.value)}
+        className="form-control form-control-sm"
+        placeholder="File search"
+        />
+      </div>
+      <FilesViewer files={filteredFiles} onBack={onBack} onOpen={onOpen} />
+      
     </div>
   )
 }
